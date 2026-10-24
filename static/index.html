@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tidy: clean up what you're putting off</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="importmap">
+    { "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    } }
+  </script>
+</head>
+<body>
+  <!-- If someone double-clicks this file instead of running the server, explain what to do. -->
+  <script>
+    if (location.protocol === "file:") {
+      document.addEventListener("DOMContentLoaded", function () {
+        document.body.innerHTML =
+          '<div style="font-family:system-ui,sans-serif;max-width:520px;margin:12vh auto;padding:28px;' +
+          'background:#fff;color:#0a0a0a;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.15);line-height:1.5">' +
+          '<h1 style="margin-top:0">Tidy needs to be started first</h1>' +
+          '<p>This page is part of the Tidy app, so it can&rsquo;t run by opening the file directly.</p>' +
+          '<ol><li>Open a terminal in the <b>tidy</b> folder.</li>' +
+          '<li>Run <code style="background:#f4f4f4;padding:2px 6px;border-radius:5px">python app.py</code></li>' +
+          '<li>Your browser opens <b>http://127.0.0.1:5050</b>. That&rsquo;s the real app.</li></ol>' +
+          '<p style="color:#6b6b6b">Full steps are in README.md.</p></div>';
+        document.body.style.background = "linear-gradient(#4fb0ec,#d8f3ff)";
+        document.body.style.margin = "0";
+        document.body.style.minHeight = "100vh";
+      });
+    }
+  </script>
+  <canvas id="world"></canvas>
+
+  <!-- Top bar: logo, level, XP, tidiness, coins -->
+  <header class="hud panel">
+    <div class="logo"><span class="logo-cube"></span>Tidy</div>
+    <div class="hud-block">
+      <div class="hud-label">Level <b id="level">1</b></div>
+      <div class="bar"><div class="bar-fill xp" id="xp-fill"></div></div>
+      <div class="hud-sub" id="xp-text">0 / 100 XP</div>
+    </div>
+    <div class="hud-block">
+      <div class="hud-label">Room tidiness</div>
+      <div class="bar"><div class="bar-fill tidy" id="tidy-fill"></div></div>
+      <div class="hud-sub" id="tidy-text">100%</div>
+    </div>
+    <div class="coins" title="Coins"><span class="coin"></span><b id="coins">0</b></div>
+  </header>
+
+  <div class="demo-banner" id="demo-banner" hidden>
+    Demo mode: no API key found, so the steps are canned. Add PORTKEY_API_KEY to .env for the real agents.
+  </div>
+
+  <!-- Left: quest log -->
+  <aside class="quest-log panel">
+    <h2>To-do</h2>
+    <form id="task-form" autocomplete="off">
+      <label for="task" class="field-label">What are you putting off?</label>
+      <textarea id="task" maxlength="300" rows="2"
+        placeholder="e.g. Start my stats problem set"></textarea>
+      <div class="form-error" id="form-error" role="alert" hidden></div>
+      <button type="submit" class="btn btn-gold" id="submit-btn">Add to my room</button>
+    </form>
+    <div class="thinking" id="thinking" hidden>
+      <div class="spin-cube"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <div>
+        <div class="thinking-title" id="thinking-title">The Tidier is reading your to-do...</div>
+        <div class="thinking-sub">Turning it into a pile of mess</div>
+      </div>
+    </div>
+    <div id="quests"></div>
+    <p class="empty-hint" id="empty-hint">Your room is spotless. Suspicious.<br>What are you avoiding?</p>
+  </aside>
+
+  <!-- Bottom right: buttons -->
+  <div class="corner-buttons">
+    <button class="btn btn-small btn-ghost chest-btn" id="storage-btn" title="Storage chest"><svg class="chest-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="3" width="14" height="12" fill="#3b2412"/><rect x="2" y="4" width="12" height="4" fill="#a0703f"/><rect x="2" y="9" width="12" height="5" fill="#8b5a2b"/><rect x="2" y="8" width="12" height="1" fill="#3b2412"/><rect x="2" y="4" width="12" height="1" fill="#b98146"/><rect x="4" y="10" width="1" height="3" fill="#6e4520"/><rect x="11" y="10" width="1" height="3" fill="#6e4520"/><rect x="7" y="7" width="2" height="4" fill="#d9d9d9"/><rect x="7" y="9" width="2" height="1" fill="#3b2412"/></svg><span>Storage</span></button>
+    <button class="btn btn-small btn-ghost" id="sound-btn" aria-pressed="true" title="Sound effects"></button>
+    <button class="btn btn-small btn-ghost" id="music-btn" aria-pressed="false" title="Calm background music"></button>
+    <button class="btn btn-small btn-ghost" id="night-btn" aria-pressed="false"></button>
+    <button class="btn btn-small" id="stats-btn">Stats &amp; tokens</button>
+  </div>
+
+  <!-- Stats drawer -->
+  <section class="stats panel" id="stats" hidden>
+    <div class="stats-head">
+      <h2>Behind the scenes</h2>
+      <button class="close" data-close="stats" aria-label="Close">&times;</button>
+    </div>
+    <div id="stats-body"></div>
+  </section>
+
+  <!-- Storage chest -->
+  <section class="stats storage panel" id="storage" hidden>
+    <div class="stats-head">
+      <h2>Storage</h2>
+      <button class="close" data-close="storage" aria-label="Close">&times;</button>
+    </div>
+    <p class="muted">Unlocked decorations live here. Place them in your room or tuck them away. Floor pieces can be dragged around the room.</p>
+    <div id="storage-body"></div>
+  </section>
+
+  <!-- Nightstand shop -->
+  <section class="stats storage panel" id="shop" hidden>
+    <div class="stats-head">
+      <h2>Shop</h2>
+      <button class="close" data-close="shop" aria-label="Close">&times;</button>
+    </div>
+    <p class="muted">Squishies for stressful moments. Earn coins by clearing piles.</p>
+    <div id="shop-body"></div>
+  </section>
+
+  <!-- The squishy that's out, next to the to-do list -->
+  <div class="squishy-stage" id="squishy-stage" hidden>
+    <button class="squishy" id="squishy" aria-label="Squish it"></button>
+    <div class="squishy-caption"><b id="squishy-name"></b></div>
+  </div>
+
+  <!-- The pet's question after a task, and first-time hints -->
+  <div class="pet-bubble" id="pet-bubble" hidden>
+    <div class="pet-bubble-text" id="pet-bubble-text"></div>
+    <div class="pet-bubble-answers">
+      <button data-answer="yes">Yes</button><button data-answer="maybe">A bit</button><button data-answer="no">No</button>
+    </div>
+  </div>
+  <div class="hint" id="hint" hidden>
+    <div id="hint-text"></div>
+    <button id="hint-ok">Got it</button>
+  </div>
+
+  <div class="tooltip" id="tooltip" hidden></div>
+  <div class="toast" id="toast" hidden></div>
+
+  <!-- Modals -->
+  <div class="modal-back" id="modal-back" hidden>
+    <div class="modal panel" id="modal"></div>
+  </div>
+
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>
