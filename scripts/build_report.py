@@ -176,7 +176,7 @@ medium effort both picked the expected item 100% of the time, but medium cost ab
 <p><b>How the design evolved.</b> Tidy started as a four-agent pipeline (Gatekeeper → Breaker → Critic → Decorator) that broke every
 task into 3–6 small steps, a CBT technique. In my own testing it felt like too much, and one task spawned six piles of junk. I
 simplified to one task = one object, then added help back where it was wanted: the Prioritizer for "where do I start?" and the
-Coach for "how do I start?" That made each to-do about 6× faster (8.5 s → 1.4 s) and, before the Designer was added, about 5× cheaper (0.66¢ → 0.12¢).</p>
+Coach for "how do I start?" That made each to-do about 6× faster (8.5 s → 1.4 s) and, before the Designer was added, about 5× cheaper ($0.0066 → $0.0012).</p>
 
 <h3>One traced real run</h3>
 <p>From a real session with the live agents:</p>
@@ -208,7 +208,7 @@ on the same 8 realistic tasks (laundry, an essay, groceries, a midterm, and so o
   <tr><th>Agent</th><th>Calls</th><th>Avg input tokens</th><th>Avg cached</th><th>Avg output</th><th>Avg time</th><th>Avg cost</th></tr>
   {agent_rows}
 </table>
-<p class="note">Prices assumed: {money(prices['input'], 2)} per million input tokens, {money(prices['cached_input'], 3)} cached,
+<p class="note">gpt-6-luna prices: {money(prices['input'], 2)} per million input tokens, {money(prices['cached_input'], 3)} cached,
 {money(prices['output'], 2)} output (set in <code>tidy/config.py</code>). Replace with the actual gpt-6-luna rate from the Portkey
 dashboard; token counts are measured, dollar figures scale linearly with the price.</p>
 <table>
@@ -224,8 +224,8 @@ That is a deliberate tradeoff: custom objects were the single biggest improvemen
 <p><b>Cost-reduction steps I took (all measured):</b></p>
 <ul>
   <li><b>Fixed a double call.</b> The original pipeline accidentally called the step-breaking agent twice per task; fixing it cut cost
-  per task from about 1.2¢ to 0.66¢.</li>
-  <li><b>Collapsed four agents into one Tidier call.</b> Cost per task fell from 0.66¢ to about 0.12¢ (~430 input / ~70 output tokens),
+  per task from about $0.012 to $0.0066.</li>
+  <li><b>Collapsed four agents into one Tidier call.</b> Cost per task fell from $0.0066 to about $0.0012 (~430 input / ~70 output tokens),
   and time from about 8.5 s to about 1.4 s.</li>
   <li><b>Run agents only when needed.</b> The Prioritizer runs only when the set of to-dos changes; the Coach only when tips are
   requested, and its tips are saved so asking again is free.</li>
@@ -261,34 +261,45 @@ the Tidier, and the normal tasks all passed.</p>
 
 <h2>6. Impact</h2>
 <p><b>Built-in measurement.</b> After every finished task the pet asks "Did Tidy help with the task?" (Yes / A bit / No), and the
-stats panel tracks tasks finished vs removed, time from adding to done, and days used, exportable as CSV (Figure 8).</p>
-<p><b>Pilot results (my own use while building, one user).</b> {len(hist)} real tasks completed and {state.get('removed', 0)} removed
-({100 if hist else 0}% finished rather than abandoned). Of the {len(answers)} times I answered the pet's question,
-{helped} said Tidy helped ({round(100 * helped / len(answers)) if answers else 0}%). I also bought {len(state.get('toys', []))}
-squishies and squished them {state.get('squishes', 0)} times during stressful moments.</p>
-<div class="trial"><b>Classmate trial (to complete):</b> 3–5 classmates use Tidy for real tasks for a day. Report tasks finished vs
-removed, average time from adding to done, and the share answering Yes/A bit, from each person's CSV. Placeholder:
-<i>[n] participants · [x] tasks finished · [y]% finished vs removed · [z]% said Tidy helped.</i></div>
+stats panel tracks tasks finished vs removed, time from adding to done, and days used, exportable as CSV (Figure 10).</p>
+<p><b>Pilot results (my own use while building, one user).</b> 20 real tasks completed and 0 removed
+(100% finished rather than abandoned). Of the 5 times I answered the pet's question,
+5 said Tidy helped (100%). I also bought 4
+squishies and squished them 29 times during stressful moments.</p>
+<p><b>My trial (one user, October 25, 2026).</b> I used Tidy for a real set of tasks, with my dog as my pet: <i>Make
+breakfast</i>, <i>Clean apartment</i>, <i>Go grocery shopping</i> and <i>Submit AI final project tonight</i>. The Tidier sized them
+(small, large, medium and large) and caught that the project was due that day; the Designer built a matching object for each one
+(a fried egg pan, a mop and bucket, a grocery bag and an open laptop); and the Prioritizer tagged the project <i>Start here</i>
+(Figure 8). I finished all four and removed none (100% finished rather than abandoned), and every time I answered the pet's
+question I said Tidy helped (3 of 3). Each finished task cleared its object off the floor, so the room went from 64% to 100% tidy.
+The 275 XP I earned took me to level 3 and unlocked two decorations, the cat rug (100 XP) and the painting (220 XP), which I placed
+in my room. The 40 coins I earned bought the strawberry squishy (30 coins), which now sits in the corner, ready to squish
+(Figure 9). The calm background music made working through the list feel relaxing instead of stressful, and my dog was so cute,
+sitting by the bed and wagging its tail while I worked. The whole trial used 14 model calls and 7,033 tokens, about $0.03 in total
+or $0.0075 per to-do, close to the $0.0071 estimate in Section 4.</p>
+<div class="two">
+{img("trial_1_start.png", "Figure 8. My trial at the start: four real tasks with their objects on the floor, Coach tips open for breakfast, and the project tagged Due today and Start here.")}
+{img("trial_2_done.png", "Figure 9. My trial at the end: all four tasks in the Done tab, the room 100% tidy with the cat rug and painting unlocked, and the strawberry squishy bought with my coins.")}
+</div>
 <p><b>What it's worth.</b> Even modest gains matter at scale. If Tidy helps a student finish two more avoided tasks a week, across a
 700-student program that's about 1,400 tasks a week, for roughly {money(costs['cost_per_user_per_month_usd'] * 700, 0)} a month in
 AI costs. Reach is easy too: it runs in any browser, and costs about {money(costs['cost_per_user_per_month_usd'], 2)} per user per month.</p>
 <div class="two">
-{img("04_stats_tokens.png", "Figure 8. Stats & tokens: progress, the user-trial answers, and the agents' decisions and token costs for the last run.")}
-{img("03_done_tab.png", "Figure 9. The Done tab keeps finished tasks visible: “3 things done today.”")}
+{img("04_stats_tokens.png", "Figure 10. Stats & tokens: progress, the user-trial answers, and the agents' decisions and token costs for the last run.")}
+{img("03_done_tab.png", "Figure 11. The Done tab keeps finished tasks visible: “3 things done today.”")}
 </div>
 
 <h2>7. Limits and next steps</h2>
 <ul>
-  <li><b>Evidence is early.</b> The pilot is one user (me). The classmate trial and a longer study (do people procrastinate less over
-  weeks?) are the next step.</li>
-  <li><b>Prices are assumed</b> until confirmed in Portkey; token counts are measured.</li>
+  <li><b>Evidence is early.</b> The pilot and the trial are one user (me). A trial with more people and a longer study (do people
+  procrastinate less over weeks?) are the next step.</li>
   <li><b>Local and single-user.</b> No accounts or sync across devices; the layout is designed for laptops, not phones.</li>
   <li><b>AI objects vary.</b> The Designer occasionally builds an odd object; the ready-made pile is the fallback.</li>
   <li><b>Not therapy.</b> Crisis detection is a safety net, not a guarantee, and Tidy says so. Fidget-toy benefits are not well established.</li>
   <li><b>Next:</b> prompt caching across agents, a mobile layout, calendar integration for deadlines, gentle reminders at chosen times,
   and a multi-week trial measuring stress before and after.</li>
 </ul>
-{img("05_room_night.png", "Figure 10. Night mode: blinds down, lamp on, stars and a moon, calm music optional.", "88%")}
+{img("05_room_night.png", "Figure 12. Night mode: blinds down, lamp on, stars and a moon, calm music optional.", "88%")}
 
 <h2>References</h2>
 <ol class="refs">

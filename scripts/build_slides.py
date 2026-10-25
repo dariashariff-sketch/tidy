@@ -126,7 +126,7 @@ slides = f"""
       <div><b>${costs['cost_10000_users_usd']:,.0f}</b><span>10,000 users / month</span></div>
     </div>
   </div>
-  <p class="small">Cuts: fixed a double call ($0.012 → $0.0066) · four agents → one Tidier call ($0.0066 → $0.0012, 8.5 s → 1.4 s) · Coach and Prioritizer only when needed · dropped the SDK (first task 20 s → 2 s). Prices assumed: $1.25 / $10 per M tokens.</p>
+  <p class="small">Cuts: fixed a double call ($0.012 → $0.0066) · four agents → one Tidier call ($0.0066 → $0.0012, 8.5 s → 1.4 s) · Coach and Prioritizer only when needed · dropped the SDK (first task 20 s → 2 s). gpt-6-luna prices: $1.25 / $10 per million tokens.</p>
 </section>
 
 <section>
@@ -147,18 +147,16 @@ slides = f"""
 </section>
 
 <section>
-  <h2>Impact</h2>
-  <div class="cols">
-    <div>
-      <div class="stats">
-        <div><b>{len(hist)}</b><span>tasks finished in my pilot</span></div>
-        <div><b>{state.get('removed', 0)}</b><span>tasks abandoned</span></div>
-        <div><b>{round(100 * helped / len(answers)) if answers else 0}%</b><span>"Did Tidy help?" yes or a bit</span></div>
-        <div><b>${costs['cost_per_user_per_month_usd'] * 700:,.0f}</b><span>/ month for a 700-student program</span></div>
-      </div>
-      <p class="small">From my own trial of Tidy (1 user), read from data/state.json when the deck is built.</p>
-    </div>
-    <figure><img src="{src('03_done_tab.png')}"><figcaption>The Done tab keeps progress visible</figcaption></figure>
+  <h2>Impact: my trial</h2>
+  <div class="stats row4">
+    <div><b>{len(hist)}</b><span>real tasks finished</span></div>
+    <div><b>{state.get('removed', 0)}</b><span>tasks abandoned</span></div>
+    <div><b>{round(100 * helped / len(answers)) if answers else 0}%</b><span>"Did Tidy help?" yes or a bit</span></div>
+    <div><b>$0.03</b><span>whole trial ($0.0075 per to-do)</span></div>
+  </div>
+  <div class="cols trial">
+    <figure><img src="{src('trial_1_start.png')}"><figcaption>Start: four tasks become objects; the project is due today, so it's tagged Start here</figcaption></figure>
+    <figure><img src="{src('trial_2_done.png')}"><figcaption>End: room 100% tidy, cat rug and painting unlocked, a strawberry squishy bought with coins</figcaption></figure>
   </div>
 </section>
 
@@ -214,6 +212,8 @@ CSS = """
 .reveal .stats div { background: #f4f4f4; border-radius: 12px; padding: 0.5em 0.6em; }
 .reveal .stats b { display: block; font-size: 0.95em; line-height: 1.2; }
 .reveal .stats span { display: block; font-size: 0.42em; line-height: 1.3; color: #555; }
+.reveal .stats.row4 { grid-template-columns: repeat(4, 1fr); margin-bottom: 0.5em; }
+.reveal .trial figure img { max-height: 330px; width: auto; max-width: 100%; }
 .reveal .big { font-size: 0.8em; font-weight: 800; }
 .reveal .next li { font-size: 0.7em; margin-bottom: 0.4em; }
 """
