@@ -12,7 +12,7 @@ from flask import Flask, Response, jsonify, request, send_from_directory
 from tidy import agents, catalog, config, llm, store
 
 app = Flask(__name__, static_folder="static", static_url_path="/static")
-PORT = 5050
+PORT = int(os.environ.get("TIDY_PORT", "5050"))   # change the port if 5050 is busy
 
 
 def _error(message: str, status: int = 400, **extra):
