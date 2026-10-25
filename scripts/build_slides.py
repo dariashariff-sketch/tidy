@@ -52,7 +52,10 @@ slides = f"""
         <li>Procrastination is <b>avoiding a bad feeling</b>, not bad time management <span class="cite">(Sirois &amp; Pychyl, 2013)</span></li>
       </ul>
     </div>
-    <div class="callout">A normal to-do list is a growing wall of unchecked boxes. It reminds you of what you haven't done, and that feeling is exactly what drives the avoidance.</div>
+    <div class="right">
+      <div class="callout">A normal to-do list is a growing wall of unchecked boxes. It reminds you of what you haven't done, and that feeling is exactly what drives the avoidance.</div>
+      <p class="sowhat"><span>←</span> So what if we give it a good feeling?</p>
+    </div>
   </div>
 </section>
 
@@ -187,6 +190,9 @@ CSS = """
 .reveal .hero { max-height: 52vh; width: auto; max-width: 70%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin: 0.3em auto; }
 .reveal .quote { font-size: 0.68em; font-style: italic; border-left: 4px solid #141414; padding-left: 0.6em; }
 .reveal .callout { background: #f4f4f4; border-radius: 14px; padding: 0.8em 1em; font-size: 0.6em; align-self: center; }
+.reveal .right { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; }
+.reveal .sowhat { font-size: 0.85em; font-weight: 800; margin: 0 0 0.35em; }
+.reveal .sowhat span { margin-right: 0.3em; }
 .reveal .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; align-items: start; }
 .reveal figure { margin: 0; }
 .reveal figure img { width: 100%; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); margin: 0; }
