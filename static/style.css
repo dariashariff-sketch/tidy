@@ -237,6 +237,7 @@ body.night .due.urgent { background: rgba(217, 45, 32, 0.2); border-color: trans
 .quest-head .grip { color: var(--ink-faint); font-size: 14px; letter-spacing: -3px; margin-right: 6px; cursor: grab; user-select: none; }
 .quest-head { align-items: center; }
 .quest-head .quest-name { flex: 1; }
+.quest-num { color: var(--ink-dim); font-variant-numeric: tabular-nums; margin-right: 2px; }
 .done-btn:hover { background: var(--black); color: var(--on-black); }
 
 /* ---------- Stats drawer ---------- */

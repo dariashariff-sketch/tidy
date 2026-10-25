@@ -148,7 +148,7 @@ function renderQuests() {
   const box = $("quests");
   $("empty-hint").hidden = state.quests.length > 0;
   const many = state.quests.length > 1;
-  box.innerHTML = state.quests.map((q) => {
+  box.innerHTML = state.quests.map((q, n) => {
     const tips = openTipIds.has(q.id) && q.tips
       ? `<ul class="tips">${q.tips.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}</ul>`
       : loadingTips.has(q.id) ? `<div class="tips-loading">The Coach is thinking of tips...</div>` : "";
@@ -156,7 +156,7 @@ function renderQuests() {
       <div class="quest" id="quest-${q.id}" data-id="${q.id}" draggable="${many}">
         <div class="quest-head">
           ${many ? `<span class="grip" title="Drag to reorder" aria-hidden="true">⋮⋮</span>` : ""}
-          <div class="quest-name">${escapeHtml(q.task)}${currentFocus() && currentFocus().id === q.id
+          <div class="quest-name"><span class="quest-num">${n + 1}.</span> ${escapeHtml(q.task)}${currentFocus() && currentFocus().id === q.id
             ? ` <span class="start-here" title="${escapeHtml(currentFocus().reason)}">Start here</span>` : ""}</div>
           <button class="drop" data-drop="${q.id}" title="Remove this pile">&times;</button>
         </div>
