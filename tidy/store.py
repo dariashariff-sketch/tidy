@@ -170,6 +170,7 @@ def complete(quest_id: str) -> dict:
             "task": quest["task"],
             "name": quest["name"],
             "size": quest["size"],
+            "object": quest["model"]["object"] if quest.get("model") else None,
             "hours_to_finish": round(
                 (datetime.now() - datetime.fromisoformat(quest["created"])).total_seconds() / 3600, 2),
             "finished": datetime.now().isoformat(timespec="seconds"),

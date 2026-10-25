@@ -59,7 +59,11 @@
 
   <!-- Left: quest log -->
   <aside class="quest-log panel">
-    <h2>To-do</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab active" id="tab-todo" role="tab" aria-selected="true">To-do</button>
+      <button class="tab" id="tab-done" role="tab" aria-selected="false">Done <span id="done-count"></span></button>
+    </div>
+    <div id="todo-view">
     <form id="task-form" autocomplete="off">
       <label for="task" class="field-label">What are you putting off?</label>
       <textarea id="task" maxlength="300" rows="2"
@@ -76,6 +80,8 @@
     </div>
     <div id="quests"></div>
     <p class="empty-hint" id="empty-hint">Your room is spotless. Suspicious.<br>What are you avoiding?</p>
+    </div>
+    <div id="done-view" hidden></div>
   </aside>
 
   <!-- Bottom right: buttons -->

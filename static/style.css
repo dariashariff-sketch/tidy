@@ -237,6 +237,21 @@ body.night .due.urgent { background: rgba(217, 45, 32, 0.2); border-color: trans
 .quest-head .grip { color: var(--ink-faint); font-size: 14px; letter-spacing: -3px; margin-right: 6px; cursor: grab; user-select: none; }
 .quest-head { align-items: center; }
 .quest-head .quest-name { flex: 1; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--soft); border-radius: 12px; padding: 4px; margin-bottom: 16px; }
+.tab { font-family: var(--display); font-size: 15px; font-weight: 700; border: 0; border-radius: 9px; padding: 8px; cursor: pointer;
+  background: none; color: var(--ink-dim); transition: background 0.15s, color 0.15s; }
+.tab.active { background: var(--panel-solid); color: var(--ink); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); }
+.tab span { font-family: "Inter", sans-serif; font-size: 12px; font-weight: 600; color: var(--ink-dim); }
+.done-hero { background: var(--soft); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+.done-hero b { display: block; font-family: var(--display); font-size: 22px; }
+.done-hero span { font-size: 13px; color: var(--ink-dim); }
+.done-day { font-size: 12px; font-weight: 600; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.6px; margin: 16px 0 6px; }
+.done-item { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.done-item:last-child { border-bottom: 0; }
+.done-check { flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--black); color: var(--on-black);
+  display: grid; place-items: center; font-size: 11px; font-weight: 700; margin-top: 1px; }
+.done-text { font-size: 14px; font-weight: 500; line-height: 1.35; }
+.done-meta { font-size: 11px; color: var(--ink-dim); margin-top: 2px; }
 .quest-num { color: var(--ink-dim); font-variant-numeric: tabular-nums; margin-right: 2px; }
 .done-btn:hover { background: var(--black); color: var(--on-black); }
 

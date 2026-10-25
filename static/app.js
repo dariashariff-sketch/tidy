@@ -190,9 +190,65 @@ async function openTips(questId) {
   renderQuests();
 }
 
+/* ---------------- Done list ---------------- */
+
+// Seeing what you've already finished (not just what's left) rebuilds a sense of progress.
+let activeTab = "todo";
+
+function showTab(tab) {
+  activeTab = tab;
+  $("todo-view").hidden = tab !== "todo";
+  $("done-view").hidden = tab !== "done";
+  $("tab-todo").classList.toggle("active", tab === "todo");
+  $("tab-done").classList.toggle("active", tab === "done");
+  $("tab-todo").setAttribute("aria-selected", String(tab === "todo"));
+  $("tab-done").setAttribute("aria-selected", String(tab === "done"));
+  if (tab === "done") renderDone();
+}
+$("tab-todo").addEventListener("click", () => showTab("todo"));
+$("tab-done").addEventListener("click", () => showTab("done"));
+
+const dayKey = (iso) => iso.slice(0, 10);
+const todayKey = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
+function renderDone() {
+  const done = [...state.history].filter((h) => h.finished).reverse();
+  const today = done.filter((h) => dayKey(h.finished) === todayKey());
+  const encouragement = today.length === 0 ? "Nothing yet today, and that's okay. One small thing counts."
+    : today.length === 1 ? "You did a thing you were putting off. That counts."
+    : today.length < 4 ? "Look at you go. That's real progress." : "What a day. Be proud of this.";
+  let html = `<div class="done-hero"><b>${today.length} thing${today.length === 1 ? "" : "s"} done today</b><span>${encouragement}</span></div>`;
+  if (!done.length) {
+    html += `<p class="empty-hint">Finished tasks will show up here, so you can see how far you've come.</p>`;
+  }
+  let lastDay = null;
+  for (const h of done) {
+    const day = dayKey(h.finished);
+    if (day !== lastDay) {
+      const [y, m, d] = day.split("-").map(Number);
+      const label = day === todayKey() ? "Today"
+        : new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+      html += `<div class="done-day">${label}</div>`;
+      lastDay = day;
+    }
+    const time = new Date(h.finished).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    html += `<div class="done-item"><span class="done-check">✓</span><div>
+      <div class="done-text">${escapeHtml(h.task)}</div>
+      <div class="done-meta">${time} · +${catalog.xp_by_size[h.size] || 0} XP${h.object ? ` · ${escapeHtml(h.object.toLowerCase())}` : ""}</div>
+    </div></div>`;
+  }
+  $("done-view").innerHTML = html;
+}
+
 function render({ animate = true } = {}) {
   renderHud();
   renderQuests();
+  const doneToday = state.history.filter((h) => h.finished && dayKey(h.finished) === todayKey()).length;
+  $("done-count").textContent = doneToday ? `(${doneToday} today)` : "";
+  if (activeTab === "done") renderDone();
   world.syncMesses(messItems(), catalog.slots, animate);
   world.syncDecor(state.placed, animate);
   world.setPet(state.pet);
