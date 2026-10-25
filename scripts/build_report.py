@@ -100,15 +100,15 @@ body = f"""
 {img("01_room_day.png", "Figure 1. Tidy today: each to-do (left) is an object in the room, built by the Designer agent. The stats problem set is due tonight, so the Prioritizer marked it <b>Start here</b> and the cat walked over to it. Deadlines show as tags; a butter squishy bought in the shop waits in the corner.")}
 
 <h2>1. Motivation</h2>
-<p><b>Who has the problem.</b> Procrastination is close to universal among students. Steel's meta-analysis estimates that
+<p><b>The problem.</b> Procrastination is close to universal among students. Steel's meta-analysis estimates that
 80–95% of college students procrastinate, about 75% consider themselves procrastinators, and nearly half do it
 consistently and problematically [1]. It is not limited to school: Gallup's 2024 global workplace survey found that roughly
-four in ten employees felt a lot of stress during the previous day [2]. Everywhere I go, I keep hearing the same thing from
-classmates and friends: everyone is overwhelmed.</p>
-<p><b>My own experience.</b> For me, I found myself stressed out of my mind with a million things on my to-do list, and no will
-or motivation to do any of them, leading to an inevitable cycle of procrastination. The longer the list got, the worse I
-felt looking at it, and the worse I felt, the less I did. A normal to-do app only made it worse: a growing wall of unchecked
-boxes is a constant reminder of everything I hadn't done.</p>
+four in ten employees felt a lot of stress during the previous day [2]. This is also a personal problem for me, and I keep
+hearing the same thing from classmates and friends as well: everyone is overwhelmed.</p>
+<p><b>My own experience.</b> For me, I seem to always find myself stressed out of my mind with a million things on my to-do
+list, and no will or motivation to do any of them, leading to an inevitable cycle of procrastination. The longer the list gets,
+the worse I feel looking at it, and the worse I feel, the less I do. Keeping a normal to-do list hasn't helped me much: it just
+stands as a growing wall of unchecked boxes and a constant reminder of everything I haven't done.</p>
 <p><b>How people handle it now, and what it costs.</b> Most people use plain list apps (Todoist, Apple Reminders, Microsoft
 To Do) or paper. Research suggests why these often fail for procrastinators: procrastination is less a time-management problem
 than an emotion-regulation one. We put tasks off to escape the bad feeling they cause right now [3]. A list does nothing about
@@ -116,6 +116,13 @@ that feeling. The costs are real: last-minute work, missed deadlines, lower grad
 unfinished tasks. Psychology research shows unfinished goals keep intruding on our thoughts until we make a concrete plan for
 them [4], and people who describe their homes as cluttered show daily stress-hormone patterns linked to chronic stress [5].
 A messy to-do list and a messy room weigh on us in similar ways.</p>
+<p><b>From a bad feeling to a good one.</b> If procrastination is the avoidance of a bad feeling, then the question becomes:
+what if the to-do list gave you a good feeling instead? That is the idea behind Tidy. Instead of a wall of unchecked boxes,
+your tasks become a cozy room that you get to tidy up, and every finished task brings a small, visible reward: the clutter
+disappears, the room gets cleaner, you earn XP and coins, and your pet celebrates. For the same reason, Tidy has a
+<b>Done</b> tab. A normal list only shows what is left, so the more you finish, the less evidence you have of it. The Done tab
+keeps everything you have finished in view ("3 things done today. That counts."), because seeing your progress, not just your
+remaining work, is one of the strongest everyday motivators (the progress principle) [6].</p>
 
 <h2>2. What is new</h2>
 <table>
