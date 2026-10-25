@@ -35,7 +35,7 @@ slides = f"""
 <section class="title-slide">
   <div class="kicker">MGT 409 · Final project · Daria Shariff</div>
   <h1>Tidy</h1>
-  <p class="lead">A cozy voxel room where the tasks you're avoiding become objects you can clear.</p>
+  <p class="lead">A cozy voxel room where the to-do list you're avoiding becomes a room you can tidy up.</p>
   <img class="hero" src="{src('01_room_day.png')}">
   <p class="small">github.com/dariashariff-sketch/tidy</p>
 </section>
