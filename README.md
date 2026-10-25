@@ -1,6 +1,6 @@
 # Tidy
 
-**Turn every task you're avoiding into a mess in a cozy voxel room, then clear it.**
+**A cozy voxel room where the to-do list you're avoiding becomes a room you can tidy up, with four AI agents that help you start and a calm, reward-based design built for stressed, procrastinating people.**
 
 Tidy is a to-do list for stressed, procrastinating people that feels like a calm little game. Type
 something you're putting off and an AI turns it into an object in your Cube World-style room: "do a back
