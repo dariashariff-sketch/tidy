@@ -1,5 +1,7 @@
 # Tidy
 
+📄 **[Report](https://dariashariff-sketch.github.io/tidy/report.html)** · 🎞️ **[Slides](https://dariashariff-sketch.github.io/tidy/slides.html)**
+
 **A cozy voxel room where the to-do list you're avoiding becomes a room you can tidy up, with four AI agents that help you start and a calm, reward-based design built for stressed, procrastinating people.**
 
 Tidy is a to-do list for stressed, procrastinating people that feels like a calm little game. Type
