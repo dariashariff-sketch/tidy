@@ -85,7 +85,7 @@ body = f"""
 <header class="title">
   <div class="kicker">MGT 409 · AI Foundations for Managers · Final project</div>
   <h1>Tidy</h1>
-  <p class="sub">A cozy voxel to-do room that turns the tasks you're avoiding into objects you can clear, with four AI agents
+  <p class="sub">A cozy voxel room where the to-do list you're avoiding becomes a room you can tidy up, with four AI agents
   that help you start and a calm, reward-based design built for stressed, procrastinating people.</p>
   <table class="links">
     <tr><td>Author</td><td>Daria Shariff</td></tr>
