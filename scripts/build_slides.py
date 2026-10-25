@@ -37,7 +37,7 @@ slides = f"""
   <h1>Tidy</h1>
   <p class="lead">A cozy voxel room where the to-do list you're avoiding becomes a room you can tidy up.</p>
   <img class="hero" src="{src('01_room_day.png')}">
-  <p class="small">github.com/dariashariff-sketch/tidy</p>
+  <p class="small"><a href="https://github.com/dariashariff-sketch/tidy" target="_blank" style="color:inherit">github.com/dariashariff-sketch/tidy</a></p>
 </section>
 
 <section>
