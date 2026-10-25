@@ -27,8 +27,8 @@ def src(name: str) -> str:
     return "data:image/png;base64," + base64.b64encode((SHOTS / name).read_bytes()).decode()
 
 
-def cents(x: float) -> str:
-    return f"{x * 100:.2f}¢"
+def dollars(x: float) -> str:
+    return f"${x:.4f}"
 
 
 slides = f"""
@@ -114,19 +114,19 @@ slides = f"""
   <div class="cols">
     <table>
       <tr><th>Agent</th><th>In / out tokens</th><th>Cost</th></tr>
-      <tr><td>Tidier</td><td>{pa['tidier']['avg_input']} / {pa['tidier']['avg_output']}</td><td>{cents(pa['tidier']['avg_cost_usd'])}</td></tr>
-      <tr><td>Designer</td><td>{pa['designer']['avg_input']} / {pa['designer']['avg_output']}</td><td>{cents(pa['designer']['avg_cost_usd'])}</td></tr>
-      <tr><td>Prioritizer</td><td>{pa['prioritizer']['avg_input']} / {pa['prioritizer']['avg_output']}</td><td>{cents(pa['prioritizer']['avg_cost_usd'])}</td></tr>
-      <tr><td>Coach (30% of tasks)</td><td>{pa['coach']['avg_input']} / {pa['coach']['avg_output']}</td><td>{cents(pa['coach']['avg_cost_usd'])}</td></tr>
+      <tr><td>Tidier</td><td>{pa['tidier']['avg_input']} / {pa['tidier']['avg_output']}</td><td>{dollars(pa['tidier']['avg_cost_usd'])}</td></tr>
+      <tr><td>Designer</td><td>{pa['designer']['avg_input']} / {pa['designer']['avg_output']}</td><td>{dollars(pa['designer']['avg_cost_usd'])}</td></tr>
+      <tr><td>Prioritizer</td><td>{pa['prioritizer']['avg_input']} / {pa['prioritizer']['avg_output']}</td><td>{dollars(pa['prioritizer']['avg_cost_usd'])}</td></tr>
+      <tr><td>Coach (30% of tasks)</td><td>{pa['coach']['avg_input']} / {pa['coach']['avg_output']}</td><td>{dollars(pa['coach']['avg_cost_usd'])}</td></tr>
     </table>
     <div class="stats">
-      <div><b>{cents(costs['cost_per_task_usd'])}</b><span>per to-do</span></div>
+      <div><b>{dollars(costs['cost_per_task_usd'])}</b><span>per to-do</span></div>
       <div><b>${costs['cost_per_user_per_month_usd']:.2f}</b><span>per user / month</span></div>
       <div><b>${costs['cost_100_users_usd']:,.0f}</b><span>100 users / month</span></div>
       <div><b>${costs['cost_10000_users_usd']:,.0f}</b><span>10,000 users / month</span></div>
     </div>
   </div>
-  <p class="small">Cuts: fixed a double call (1.2¢ → 0.66¢) · four agents → one Tidier call (0.66¢ → 0.12¢, 8.5 s → 1.4 s) · Coach and Prioritizer only when needed · dropped the SDK (first task 20 s → 2 s). Prices assumed: $1.25 / $10 per M tokens.</p>
+  <p class="small">Cuts: fixed a double call ($0.012 → $0.0066) · four agents → one Tidier call ($0.0066 → $0.0012, 8.5 s → 1.4 s) · Coach and Prioritizer only when needed · dropped the SDK (first task 20 s → 2 s). Prices assumed: $1.25 / $10 per M tokens.</p>
 </section>
 
 <section>
